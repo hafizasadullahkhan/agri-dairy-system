@@ -5,108 +5,127 @@ import cloud_db as db
 
 # Page Configuration
 st.set_page_config(
-    page_title="Agri-Dairy Enterprise Manager",
+    page_title="Al-Madina Agri-Dairy Enterprise",
     page_icon="🌾",
     layout="wide"
 )
 
-# --- PROFESSIONAL DARK-AGRI THEME & STYLING ---
+# --- ULTIMATE LUXURY NASTALIQ & EMERALD FARM THEME ---
 st.markdown("""
     <style>
+    /* Import Google Noto Nastaliq Urdu Font */
     @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
 
-    /* Global App Styling */
+    /* Global Styling */
     .stApp {
-        background-color: #0f291e;
-        color: #f0f4f1;
-        font-family: 'Noto Nastaliq Urdu', Arial, sans-serif;
+        background: radial-gradient(circle at top right, #0d3b25, #081c15);
+        color: #e9edc9;
+        font-family: 'Noto Nastaliq Urdu', serif, sans-serif !important;
     }
     
-    /* Sidebar Styling */
+    /* Sidebar Luxury Styling */
     [data-testid="stSidebar"] {
-        background-color: #1b4332;
-        border-right: 1px solid #2d6a4f;
+        background: linear-gradient(180deg, #1b4332 0%, #081c15 100%);
+        border-left: 2px solid #2d6a4f;
     }
     [data-testid="stSidebar"] .stSelectbox label, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] p {
-        color: #ffffff !important;
+        color: #d8f3dc !important;
+        font-family: 'Noto Nastaliq Urdu', serif !important;
     }
     
-    /* Headings */
+    /* Headings with Gold & Emerald Glow */
     h1, h2, h3, h4 {
         color: #52b788 !important;
         font-weight: 700 !important;
-        font-family: 'Noto Nastaliq Urdu', Arial, sans-serif;
+        font-family: 'Noto Nastaliq Urdu', serif !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
     
-    /* Metric Cards */
+    /* Luxury Glassmorphism Metric Cards */
     .stMetric {
-        background: #132e22;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-        border: 1px solid #2d6a4f;
+        background: rgba(27, 67, 50, 0.6);
+        backdrop-filter: blur(12px);
+        padding: 22px;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        border: 1px solid rgba(82, 183, 136, 0.2);
+        transition: transform 0.3s ease;
+    }
+    .stMetric:hover {
+        transform: translateY(-5px);
+        border: 1px solid #52b788;
     }
     .stMetric label {
-        color: #95d5b2 !important;
-        font-size: 16px !important;
+        color: #b7e4c7 !important;
+        font-size: 15px !important;
         font-weight: 600 !important;
+        font-family: 'Noto Nastaliq Urdu', serif !important;
     }
     .stMetric [data-testid="stMetricValue"] {
         color: #ffffff !important;
-        font-size: 26px !important;
+        font-size: 28px !important;
         font-weight: 800 !important;
+        text-shadow: 0 2px 5px rgba(82, 183, 136, 0.5);
     }
 
-    /* Buttons */
+    /* Professional Buttons */
     .stButton>button {
-        background-color: #2d6a4f;
-        color: white;
-        border-radius: 8px;
+        background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
+        color: #ffffff;
+        border-radius: 10px;
         font-weight: 700;
+        font-family: 'Noto Nastaliq Urdu', serif !important;
         padding: 0.6rem 1.2rem;
         border: 1px solid #52b788;
         width: 100%;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        transition: 0.3s;
+        box-shadow: 0 4px 15px rgba(45, 106, 79, 0.4);
+        transition: 0.3s ease;
     }
     .stButton>button:hover {
-        background-color: #52b788;
-        color: #0f291e;
+        background: linear-gradient(135deg, #52b788 0%, #2d6a4f 100%);
+        color: #081c15;
         border: 1px solid #ffffff;
+        box-shadow: 0 6px 20px rgba(82, 183, 136, 0.6);
     }
     
     /* Dataframes & Containers */
     [data-testid="stDataFrame"] {
-        border-radius: 10px;
+        border-radius: 12px;
         border: 1px solid #2d6a4f;
-        background-color: #132e22;
+        background-color: rgba(19, 46, 34, 0.8);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
     
-    /* Input Fields */
+    /* Inputs */
     .stTextInput>div>div>input, .stNumberInput>div>div>input, .stDateInput>div>div>input {
-        background-color: #1b4332;
+        background-color: #132e22;
         color: white;
         border: 1px solid #2d6a4f;
-        border-radius: 6px;
+        border-radius: 8px;
+        font-family: 'Noto Nastaliq Urdu', serif !important;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# App Header
-st.title("🌾 Agri-Dairy Enterprise Manager")
-st.markdown("### 🐄 فارم مینجمنٹ اور فنانشل انٹیلی جنس سسٹم")
+# Custom Header with Logo Layout
+col_logo, col_title = st.columns([1, 6])
+with col_logo:
+    st.markdown("🌾", unsafe_allow_html=True)
+with col_title:
+    st.title("البدر ایگری اینڈ ڈیری انٹرپرائز مینجر")
+    st.markdown("### ✨ کلاؤڈ سنکڈ لیس دار فارم مینجمنٹ اینڈ فنانشل انٹیلی جنس سسٹم")
 st.markdown("---")
 
-# Navigation Sidebar
+# Navigation Sidebar with Professional Branding
 with st.sidebar:
-    st.image("https://img.icons8.com/color/96/cow-breed.png", width=60)
-    st.header("فارم کنٹرول پینل")
+    st.markdown("<h2 style='text-align: center; color: #52b788;'>🌟 فارم پورٹل</h2>", unsafe_allow_html=True)
+    st.markdown("---")
     menu = st.selectbox(
         "کیٹیگری منتخب کریں", 
-        ["📊 ڈیش بورڈ (ڈسپلے & گراف)", "🥛 ڈیری اور دودھ (Dairy)", "🐄 لائیو اسٹاک اخراجات", "🌾 فصل اور زرعی رقبہ"]
+        ["📊 ڈیش بورڈ (مجموعی جائزہ & گراف)", "🥛 ڈیری اور دودھ (Milk & Dairy)", "🐄 لائیو اسٹاک اخراجات", "🌾 فصل اور زرعی رقبہ"]
     )
     st.markdown("---")
-    st.info("💡 **سسٹم اسٹیٹس:**\nآف لائن موڈ + کلاؤڈ سنک فعال ہے")
+    st.success("🟢 **سسٹم اسٹیٹس:**\nآف لائن موڈ + کلاؤڈ سنک فعال ہے")
 
 # Fetch Data
 milk_df = db.get_milk_records()
@@ -114,9 +133,9 @@ live_df = db.get_livestock_records()
 crop_df = db.get_crop_records()
 
 # ---------------------------------------------------------
-# 1. PROFESSIONAL DASHBOARD WITH CHARTS
+# 1. LUXURY DASHBOARD
 # ---------------------------------------------------------
-if menu == "📊 ڈیش بورڈ (ڈسپلے & گراف)":
+if menu == "📊 ڈیش بورڈ (مجموعی جائزہ & گراف)":
     st.header("📊 فارم کا مالیاتی اور کارکردگی ڈیش بورڈ")
     
     total_milk_revenue = milk_df["total_amount"].sum() if not milk_df.empty else 0.0
@@ -128,7 +147,7 @@ if menu == "📊 ڈیش بورڈ (ڈسپلے & گراف)":
     total_expenses = total_livestock_exp + total_crop_exp
     net_profit = total_revenue - total_expenses
     
-    # KPI Cards
+    # KPI Metric Cards
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("🥛 کل دودھ آمدنی", f"PKR {total_milk_revenue:,.2f}")
     col2.metric("🐄 کل لائیو اسٹاک خرچے", f"PKR {total_livestock_exp:,.2f}")
@@ -137,8 +156,8 @@ if menu == "📊 ڈیش بورڈ (ڈسپلے & گراف)":
     
     st.markdown("---")
     
-    # Visual Analytics & Charts Section
-    st.subheader("📈 فنانشل تجزیہ اور گرافکس")
+    # Visual Analytics & Charts
+    st.subheader("📈 فنانشل تجزیہ اور لائیو گرافکس")
     chart_col1, chart_col2 = st.columns(2)
     
     with chart_col1:
@@ -158,7 +177,7 @@ if menu == "📊 ڈیش بورڈ (ڈسپلے & گراف)":
 # ---------------------------------------------------------
 # 2. DAIRY MANAGER
 # ---------------------------------------------------------
-elif menu == "🥛 ڈیری اور دودھ (Dairy)":
+elif menu == "🥛 ڈیری اور دودھ (Milk & Dairy)":
     st.header("🥛 ڈیری پروڈکشن اور دودھ کا نظام")
     
     col1, col2 = st.columns([1, 2], gap="large")
