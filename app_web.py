@@ -5,127 +5,120 @@ import cloud_db as db
 
 # Page Configuration
 st.set_page_config(
-    page_title="Al-Madina Agri-Dairy Enterprise",
+    page_title="Khan Agri & Dairy System",
     page_icon="🌾",
     layout="wide"
 )
 
-# --- ULTIMATE LUXURY NASTALIQ & EMERALD FARM THEME ---
+# --- LUXURY NASTALIQ & EMERALD FARM THEME CSS ---
 st.markdown("""
     <style>
-    /* Import Google Noto Nastaliq Urdu Font */
     @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
 
-    /* Global Styling */
+    /* Global App Styling */
     .stApp {
         background: radial-gradient(circle at top right, #0d3b25, #081c15);
         color: #e9edc9;
-        font-family: 'Noto Nastaliq Urdu', serif, sans-serif !important;
+        font-family: 'Noto Nastaliq Urdu', 'Segoe UI', serif !important;
     }
     
-    /* Sidebar Luxury Styling */
+    /* Sidebar Styling */
     [data-testid="stSidebar"] {
         background: linear-gradient(180deg, #1b4332 0%, #081c15 100%);
-        border-left: 2px solid #2d6a4f;
-    }
-    [data-testid="stSidebar"] .stSelectbox label, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] p {
-        color: #d8f3dc !important;
-        font-family: 'Noto Nastaliq Urdu', serif !important;
+        border-right: 2px solid #2d6a4f;
     }
     
-    /* Headings with Gold & Emerald Glow */
+    /* Fix Selectbox Text Cut Issue & Styling */
+    [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] {
+        background-color: #132e22 !important;
+        border: 1px solid #52b788 !important;
+        border-radius: 8px !important;
+        color: #ffffff !important;
+    }
+    div[data-baseweb="popover"] {
+        background-color: #132e22 !important;
+        color: #ffffff !important;
+    }
+    
+    /* Headings */
     h1, h2, h3, h4 {
         color: #52b788 !important;
         font-weight: 700 !important;
         font-family: 'Noto Nastaliq Urdu', serif !important;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        line-height: 1.8 !important;
     }
     
-    /* Luxury Glassmorphism Metric Cards */
+    /* Metric Cards */
     .stMetric {
         background: rgba(27, 67, 50, 0.6);
-        backdrop-filter: blur(12px);
-        padding: 22px;
-        border-radius: 16px;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        border: 1px solid rgba(82, 183, 136, 0.2);
-        transition: transform 0.3s ease;
-    }
-    .stMetric:hover {
-        transform: translateY(-5px);
-        border: 1px solid #52b788;
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        border-radius: 14px;
+        border: 1px solid rgba(82, 183, 136, 0.3);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     }
     .stMetric label {
         color: #b7e4c7 !important;
-        font-size: 15px !important;
-        font-weight: 600 !important;
+        font-size: 16px !important;
         font-family: 'Noto Nastaliq Urdu', serif !important;
     }
     .stMetric [data-testid="stMetricValue"] {
         color: #ffffff !important;
-        font-size: 28px !important;
+        font-size: 26px !important;
         font-weight: 800 !important;
-        text-shadow: 0 2px 5px rgba(82, 183, 136, 0.5);
     }
 
-    /* Professional Buttons */
+    /* Buttons */
     .stButton>button {
         background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
         color: #ffffff;
-        border-radius: 10px;
+        border-radius: 8px;
         font-weight: 700;
         font-family: 'Noto Nastaliq Urdu', serif !important;
         padding: 0.6rem 1.2rem;
         border: 1px solid #52b788;
         width: 100%;
-        box-shadow: 0 4px 15px rgba(45, 106, 79, 0.4);
-        transition: 0.3s ease;
+        transition: 0.3s;
     }
     .stButton>button:hover {
-        background: linear-gradient(135deg, #52b788 0%, #2d6a4f 100%);
+        background: #52b788;
         color: #081c15;
-        border: 1px solid #ffffff;
-        box-shadow: 0 6px 20px rgba(82, 183, 136, 0.6);
     }
     
-    /* Dataframes & Containers */
+    /* Dataframe Styling */
     [data-testid="stDataFrame"] {
-        border-radius: 12px;
+        border-radius: 10px;
         border: 1px solid #2d6a4f;
-        background-color: rgba(19, 46, 34, 0.8);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
-    
-    /* Inputs */
-    .stTextInput>div>div>input, .stNumberInput>div>div>input, .stDateInput>div>div>input {
-        background-color: #132e22;
-        color: white;
-        border: 1px solid #2d6a4f;
-        border-radius: 8px;
-        font-family: 'Noto Nastaliq Urdu', serif !important;
+        background-color: rgba(19, 46, 34, 0.9);
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Custom Header with Logo Layout
+# Custom Header Section
 col_logo, col_title = st.columns([1, 6])
 with col_logo:
-    st.markdown("🌾", unsafe_allow_html=True)
+    st.image("https://img.icons8.com/color/96/tractor.png", width=75)
 with col_title:
-    st.title("البدر ایگری اینڈ ڈیری انٹرپرائز مینجر")
-    st.markdown("### ✨ کلاؤڈ سنکڈ لیس دار فارم مینجمنٹ اینڈ فنانشل انٹیلی جنس سسٹم")
+    st.title("خان ایگری اینڈ ڈیری سسٹم")
+    st.markdown("##### 🌾 جدید زرعی فارم اور ڈیری مینجمنٹ سافٹ ویئر")
 st.markdown("---")
 
-# Navigation Sidebar with Professional Branding
+# Navigation Sidebar
 with st.sidebar:
-    st.markdown("<h2 style='text-align: center; color: #52b788;'>🌟 فارم پورٹل</h2>", unsafe_allow_html=True)
-    st.markdown("---")
+    # Beautiful English Logo Header
+    st.markdown("""
+        <div style="text-align: center; padding: 10px; background: rgba(82, 183, 136, 0.1); border-radius: 12px; border: 1px solid #52b788; margin-bottom: 15px;">
+            <img src="https://img.icons8.com/color/96/cow-breed.png" width="60"><br>
+            <span style="font-size: 18px; font-weight: bold; color: #52b788; font-family: Arial;">KHAN FARM PORTAL</span>
+        </div>
+    """, unsafe_allow_html=True)
+    
     menu = st.selectbox(
         "کیٹیگری منتخب کریں", 
-        ["📊 ڈیش بورڈ (مجموعی جائزہ & گراف)", "🥛 ڈیری اور دودھ (Milk & Dairy)", "🐄 لائیو اسٹاک اخراجات", "🌾 فصل اور زرعی رقبہ"]
+        ["📊 ڈیش بورڈ (مجموعی جائزہ & گراف)", "🥛 ڈیری اور دودھ کا ریکارڈ", "🐄 لائیو اسٹاک اخراجات", "🌾 فصل اور زرعی رقبہ"]
     )
     st.markdown("---")
-    st.success("🟢 **سسٹم اسٹیٹس:**\nآف لائن موڈ + کلاؤڈ سنک فعال ہے")
+    st.success("🟢 **سسٹم اسٹیٹس:**\nآف لائن + کلاؤڈ موڈ فعال ہے")
 
 # Fetch Data
 milk_df = db.get_milk_records()
@@ -133,10 +126,10 @@ live_df = db.get_livestock_records()
 crop_df = db.get_crop_records()
 
 # ---------------------------------------------------------
-# 1. LUXURY DASHBOARD
+# 1. DASHBOARD
 # ---------------------------------------------------------
 if menu == "📊 ڈیش بورڈ (مجموعی جائزہ & گراف)":
-    st.header("📊 فارم کا مالیاتی اور کارکردگی ڈیش بورڈ")
+    st.header("📊 فارم کا مالیاتی ڈیش بورڈ")
     
     total_milk_revenue = milk_df["total_amount"].sum() if not milk_df.empty else 0.0
     total_livestock_exp = live_df["amount"].sum() if not live_df.empty else 0.0
@@ -147,7 +140,7 @@ if menu == "📊 ڈیش بورڈ (مجموعی جائزہ & گراف)":
     total_expenses = total_livestock_exp + total_crop_exp
     net_profit = total_revenue - total_expenses
     
-    # KPI Metric Cards
+    # KPI Cards
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("🥛 کل دودھ آمدنی", f"PKR {total_milk_revenue:,.2f}")
     col2.metric("🐄 کل لائیو اسٹاک خرچے", f"PKR {total_livestock_exp:,.2f}")
@@ -157,7 +150,7 @@ if menu == "📊 ڈیش بورڈ (مجموعی جائزہ & گراف)":
     st.markdown("---")
     
     # Visual Analytics & Charts
-    st.subheader("📈 فنانشل تجزیہ اور لائیو گرافکس")
+    st.subheader("📈 فنانشل تجزیہ اور گرافکس")
     chart_col1, chart_col2 = st.columns(2)
     
     with chart_col1:
@@ -177,7 +170,7 @@ if menu == "📊 ڈیش بورڈ (مجموعی جائزہ & گراف)":
 # ---------------------------------------------------------
 # 2. DAIRY MANAGER
 # ---------------------------------------------------------
-elif menu == "🥛 ڈیری اور دودھ (Milk & Dairy)":
+elif menu == "🥛 ڈیری اور دودھ کا ریکارڈ":
     st.header("🥛 ڈیری پروڈکشن اور دودھ کا نظام")
     
     col1, col2 = st.columns([1, 2], gap="large")
