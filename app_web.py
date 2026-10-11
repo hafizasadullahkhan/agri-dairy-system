@@ -5,34 +5,36 @@ import cloud_db as db
 
 # Page Configuration
 st.set_page_config(
-    page_title="Khan Agri & Dairy System",
+    page_title="KHAN FARM PORTAL",
     page_icon="🌾",
     layout="wide"
 )
 
-# --- LUXURY NASTALIQ & EMERALD FARM THEME CSS ---
+# --- LOGO-MATCHED LUXURY THEME & TYPOGRAPHY CSS ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-    /* Global App Styling */
+    /* Global App Background & Colors */
     .stApp {
         background: radial-gradient(circle at top right, #0d3b25, #081c15);
         color: #e9edc9;
-        font-family: 'Noto Nastaliq Urdu', 'Segoe UI', serif !important;
+        font-family: 'Noto Nastaliq Urdu', sans-serif !important;
     }
     
     /* Sidebar Styling */
     [data-testid="stSidebar"] {
         background: linear-gradient(180deg, #1b4332 0%, #081c15 100%);
         border-right: 2px solid #2d6a4f;
+        padding-top: 10px;
     }
     
-    /* Fix Selectbox Text Cut Issue & Styling */
+    /* Selectbox Fix & Styling */
     [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] {
         background-color: #132e22 !important;
         border: 1px solid #52b788 !important;
-        border-radius: 8px !important;
+        border-radius: 10px !important;
         color: #ffffff !important;
     }
     div[data-baseweb="popover"] {
@@ -40,85 +42,104 @@ st.markdown("""
         color: #ffffff !important;
     }
     
-    /* Headings */
-    h1, h2, h3, h4 {
+    /* Typography Hierarchy (Balanced Headings) */
+    h1 {
         color: #52b788 !important;
+        font-size: 32px !important;
         font-weight: 700 !important;
         font-family: 'Noto Nastaliq Urdu', serif !important;
-        line-height: 1.8 !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.4);
     }
-    
-    /* Metric Cards */
-    .stMetric {
-        background: rgba(27, 67, 50, 0.6);
-        backdrop-filter: blur(10px);
-        padding: 20px;
-        border-radius: 14px;
-        border: 1px solid rgba(82, 183, 136, 0.3);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    }
-    .stMetric label {
+    h2, h3 {
         color: #b7e4c7 !important;
-        font-size: 16px !important;
         font-family: 'Noto Nastaliq Urdu', serif !important;
     }
+    
+    /* Luxury Glassmorphism Metric Cards */
+    .stMetric {
+        background: rgba(27, 67, 50, 0.7);
+        backdrop-filter: blur(12px);
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(82, 183, 136, 0.3);
+    }
+    .stMetric label {
+        color: #95d5b2 !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+    }
     .stMetric [data-testid="stMetricValue"] {
-        color: #ffffff !important;
-        font-size: 26px !important;
+        color: #ffb703 !important; /* Sun Yellow Highlight */
+        font-size: 28px !important;
         font-weight: 800 !important;
+        font-family: 'Poppins', sans-serif !important;
     }
 
-    /* Buttons */
+    /* Professional Buttons matching Leaf Green */
     .stButton>button {
-        background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
-        color: #ffffff;
-        border-radius: 8px;
+        background: linear-gradient(135deg, #52b788 0%, #2d6a4f 100%);
+        color: #081c15;
+        border-radius: 10px;
         font-weight: 700;
         font-family: 'Noto Nastaliq Urdu', serif !important;
         padding: 0.6rem 1.2rem;
-        border: 1px solid #52b788;
+        border: 1px solid #ffb703;
         width: 100%;
-        transition: 0.3s;
+        box-shadow: 0 4px 15px rgba(82, 183, 136, 0.4);
+        transition: 0.3s ease;
     }
     .stButton>button:hover {
-        background: #52b788;
+        background: linear-gradient(135deg, #ffb703 0%, #d4a373 100%);
         color: #081c15;
+        border: 1px solid #ffffff;
     }
     
-    /* Dataframe Styling */
+    /* Dataframes */
     [data-testid="stDataFrame"] {
-        border-radius: 10px;
+        border-radius: 12px;
         border: 1px solid #2d6a4f;
         background-color: rgba(19, 46, 34, 0.9);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    
+    /* Form Inputs */
+    .stTextInput>div>div>input, .stNumberInput>div>div>input, .stDateInput>div>div>input {
+        background-color: #132e22;
+        color: white;
+        border: 1px solid #52b788;
+        border-radius: 8px;
+        font-family: 'Noto Nastaliq Urdu', serif !important;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Custom Header Section
+# Main Header with Logo Integration
 col_logo, col_title = st.columns([1, 6])
 with col_logo:
-    st.image("https://img.icons8.com/color/96/tractor.png", width=75)
+    try:
+        st.image("logo.png", width=90)
+    except:
+        st.markdown("🌾", unsafe_allow_html=True)
 with col_title:
-    st.title("خان ایگری اینڈ ڈیری سسٹم")
-    st.markdown("##### 🌾 جدید زرعی فارم اور ڈیری مینجمنٹ سافٹ ویئر")
+    st.title("خان فارم پورٹل")
+    st.markdown("<h4 style='color: #ffb703; margin-top: -10px;'>🌾 ڈیری فارم اور زرعی رقبہ کا جدید ترین مینجمنٹ سسٹم</h4>", unsafe_allow_html=True)
 st.markdown("---")
 
-# Navigation Sidebar
+# Navigation Sidebar with Logo
 with st.sidebar:
-    # Beautiful English Logo Header
-    st.markdown("""
-        <div style="text-align: center; padding: 10px; background: rgba(82, 183, 136, 0.1); border-radius: 12px; border: 1px solid #52b788; margin-bottom: 15px;">
-            <img src="https://img.icons8.com/color/96/cow-breed.png" width="60"><br>
-            <span style="font-size: 18px; font-weight: bold; color: #52b788; font-family: Arial;">KHAN FARM PORTAL</span>
-        </div>
-    """, unsafe_allow_html=True)
+    try:
+        st.image("logo.png", use_column_width=True)
+    except:
+        st.markdown("<h3 style='text-align: center; color: #52b788;'>KHAN FARM PORTAL</h3>", unsafe_allow_html=True)
     
+    st.markdown("---")
     menu = st.selectbox(
         "کیٹیگری منتخب کریں", 
         ["📊 ڈیش بورڈ (مجموعی جائزہ & گراف)", "🥛 ڈیری اور دودھ کا ریکارڈ", "🐄 لائیو اسٹاک اخراجات", "🌾 فصل اور زرعی رقبہ"]
     )
     st.markdown("---")
-    st.success("🟢 **سسٹم اسٹیٹس:**\nآف لائن + کلاؤڈ موڈ فعال ہے")
+    st.success("🟢 **سسٹم اسٹیٹس:**\nآف لائن + کلاؤڈ سنک فعال ہے")
 
 # Fetch Data
 milk_df = db.get_milk_records()
@@ -150,7 +171,7 @@ if menu == "📊 ڈیش بورڈ (مجموعی جائزہ & گراف)":
     st.markdown("---")
     
     # Visual Analytics & Charts
-    st.subheader("📈 فنانشل تجزیہ اور گرافکس")
+    st.subheader("📈 فنانشل تجزیہ اور لائیو گرافکس")
     chart_col1, chart_col2 = st.columns(2)
     
     with chart_col1:
