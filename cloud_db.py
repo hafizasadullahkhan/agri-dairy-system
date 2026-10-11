@@ -1,60 +1,105 @@
+import sqlite3
+import pandas as pd
+from datetime import date
 from supabase import create_client, Client
 
 SUPABASE_URL = "https://ndsfjdfkspjykutiarpa.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kc2ZqZGZrc3BqeWt1dGlhcnBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2ODk4NzAsImV4cCI6MjEwNzI2NTg3MH0.8CIkJ9Qn7je5QjX1guf-e6mR3B7r7BtHI8Qj1AE98_0"
+SUPABASE_KEY = "sb_publishable_m20XDa3jFv6zS-FFTjQskg_8lUcq_"
 
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+# Supabase Client (اگر انٹرنیٹ ہو تو)
+try:
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+except:
+    supabase = None
 
-# 1. Milk Records Functions
-def sync_add_milk(date, morning, evening, home_use, rate):
+# --- LOCAL SQLITE SETUP (آف لائن ڈیٹا بیس) ---
+def init_local_db():
+    conn = sqlite3.connect("local_farm.db")
+    cursor = conn.cursor()
+    
+    cursor.execute('''CREATE TABLE IF NOT EXISTS milk_records (
+                        date TEXT, morning REAL, evening REAL, home_use REAL, rate REAL, sold_qty REAL, total_amount REAL)''')
+    
+    cursor.execute('''CREATE TABLE IF NOT EXISTS livestock_expenses (
+                        date TEXT, item_name TEXT, amount REAL)''')
+    
+    cursor.execute('''CREATE TABLE IF NOT EXISTS crop_records (
+                        crop_name TEXT, land_acres REAL, expenses REAL, yield_qty TEXT, revenue REAL)''')
+    
+    conn.commit()
+    conn.close()
+
+init_local_db()
+
+# --- 1. MILK FUNCTIONS ---
+def add_milk(date_val, morning, evening, home_use, rate):
     total_milk = morning + evening
     sold_milk = total_milk - home_use
     total_amount = sold_milk * rate
     
-    data = {
-        "date": str(date),
-        "morning": float(morning),
-        "evening": float(evening),
-        "home_use": float(home_use),
-        "rate": float(rate),
-        "sold_qty": float(sold_milk),
-        "total_amount": float(total_amount)
-    }
-    response = supabase.table("milk_records").insert(data).execute()
-    return response
+    # پہلے لوکل سیو کریں (آف لائن سپورٹ)
+    conn = sqlite3.connect("local_farm.db")
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO milk_records VALUES (?, ?, ?, ?, ?, ?, ?)",
+                   (str(date_val), morning, evening, home_use, rate, sold_milk, total_amount))
+    conn.commit()
+    conn.close()
+    
+    # کوشش کریں کلاؤڈ پر بھی چلا جائے
+    if supabase:
+        try:
+            data = {
+                "date": str(date_val), "morning": float(morning), "evening": float(evening),
+                "home_use": float(home_use), "rate": float(rate), "sold_qty": float(sold_milk), "total_amount": float(total_amount)
+            }
+            supabase.table("milk_records").insert(data).execute()
+        except:
+            pass
 
-def get_cloud_milk_records():
-    response = supabase.table("milk_records").select("*").execute()
-    return response.data
+def get_milk_records():
+    conn = sqlite3.connect("local_farm.db")
+    df = pd.read_sql("SELECT * FROM milk_records", conn)
+    conn.close()
+    return df
 
+# --- 2. LIVESTOCK EXPENSES FUNCTIONS ---
+def add_livestock(date_val, item_name, amount):
+    conn = sqlite3.connect("local_farm.db")
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO livestock_expenses VALUES (?, ?, ?)", (str(date_val), item_name, amount))
+    conn.commit()
+    conn.close()
+    
+    if supabase:
+        try:
+            data = {"date": str(date_val), "item_name": item_name, "amount": float(amount)}
+            supabase.table("livestock_expenses").insert(data).execute()
+        except:
+            pass
 
-# 2. Livestock Expenses Functions
-def sync_add_livestock(date, item_name, amount):
-    data = {
-        "date": str(date),
-        "item_name": item_name,
-        "amount": float(amount)
-    }
-    response = supabase.table("livestock_expenses").insert(data).execute()
-    return response
+def get_livestock_records():
+    conn = sqlite3.connect("local_farm.db")
+    df = pd.read_sql("SELECT * FROM livestock_expenses", conn)
+    conn.close()
+    return df
 
-def get_cloud_livestock_records():
-    response = supabase.table("livestock_expenses").select("*").execute()
-    return response.data
+# --- 3. CROP RECORDS FUNCTIONS ---
+def add_crop(crop_name, land_acres, expenses, yield_qty, revenue):
+    conn = sqlite3.connect("local_farm.db")
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO crop_records VALUES (?, ?, ?, ?, ?)", (crop_name, land_acres, expenses, yield_qty, revenue))
+    conn.commit()
+    conn.close()
+    
+    if supabase:
+        try:
+            data = {"crop_name": crop_name, "land_acres": float(land_acres), "expenses": float(expenses), "yield_qty": yield_qty, "revenue": float(revenue)}
+            supabase.table("crop_records").insert(data).execute()
+        except:
+            pass
 
-
-# 3. Crop Records Functions
-def sync_add_crop(crop_name, land_acres, expenses, yield_qty, revenue):
-    data = {
-        "crop_name": crop_name,
-        "land_acres": float(land_acres),
-        "expenses": float(expenses),
-        "yield_qty": yield_qty,
-        "revenue": float(revenue)
-    }
-    response = supabase.table("crop_records").insert(data).execute()
-    return response
-
-def get_cloud_crop_records():
-    response = supabase.table("crop_records").select("*").execute()
-    return response.data
+def get_crop_records():
+    conn = sqlite3.connect("local_farm.db")
+    df = pd.read_sql("SELECT * FROM crop_records", conn)
+    conn.close()
+    return df
