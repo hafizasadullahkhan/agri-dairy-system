@@ -4,7 +4,7 @@ from datetime import date
 import cloud_db as db
 
 st.set_page_config(
-    page_page_title="Agri-Dairy System",
+    page_title="Agri-Dairy System",
     page_icon="🌾",
     layout="wide"
 )
