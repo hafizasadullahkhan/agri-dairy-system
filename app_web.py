@@ -5,28 +5,40 @@ import cloud_db as db
 
 # Page Configuration
 st.set_page_config(
-    page_title="خان ڈیجیٹل کھاتا سسٹم",
+    page_title="KHAN FARM PORTAL",
     page_icon="📒",
     layout="wide"
 )
 
-# --- DIGITAL KHATA & FARM THEME CSS ---
+# --- LUXURY KHATA & BANK THEME CSS ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
+    /* Global App Background & Colors */
     .stApp {
         background: radial-gradient(circle at top right, #0d3b25, #081c15);
         color: #e9edc9;
         font-family: 'Noto Nastaliq Urdu', sans-serif !important;
     }
     
+    /* Sidebar Styling */
     [data-testid="stSidebar"] {
         background: linear-gradient(180deg, #1b4332 0%, #081c15 100%);
         border-right: 2px solid #2d6a4f;
+        padding-top: 10px;
     }
     
+    /* Radio Buttons & Selectbox Styling in Sidebar */
+    [data-testid="stSidebar"] .stRadio label, [data-testid="stSidebar"] .stSelectbox label {
+        color: #ffffff !important;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        font-family: 'Noto Nastaliq Urdu', serif !important;
+    }
+    
+    /* Selectbox Fix */
     [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] {
         background-color: #132e22 !important;
         border: 1px solid #52b788 !important;
@@ -38,35 +50,20 @@ st.markdown("""
         color: #ffffff !important;
     }
     
+    /* Typography */
     h1 {
         color: #52b788 !important;
-        font-size: 30px !important;
+        font-size: 32px !important;
         font-weight: 700 !important;
+        font-family: 'Noto Nastaliq Urdu', serif !important;
         text-shadow: 0 2px 4px rgba(0,0,0,0.4);
     }
     h2, h3, h4 {
         color: #b7e4c7 !important;
-    }
-    
-    .stMetric {
-        background: rgba(27, 67, 50, 0.7);
-        backdrop-filter: blur(12px);
-        padding: 18px;
-        border-radius: 16px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-        border: 1px solid rgba(82, 183, 136, 0.3);
-    }
-    .stMetric label {
-        color: #95d5b2 !important;
-        font-size: 14px !important;
-    }
-    .stMetric [data-testid="stMetricValue"] {
-        color: #ffb703 !important;
-        font-size: 24px !important;
-        font-weight: 800 !important;
-        font-family: 'Poppins', sans-serif !important;
+        font-family: 'Noto Nastaliq Urdu', serif !important;
     }
 
+    /* Buttons */
     .stButton>button {
         background: linear-gradient(135deg, #52b788 0%, #2d6a4f 100%);
         color: #081c15;
@@ -84,13 +81,16 @@ st.markdown("""
         color: #081c15;
     }
     
+    /* Dataframe Styling */
     [data-testid="stDataFrame"] {
         border-radius: 12px;
         border: 1px solid #2d6a4f;
         background-color: rgba(19, 46, 34, 0.9);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
     
-    .stTextInput>div>div>input, .stNumberInput>div>div>input, .stDateInput>div>div>input {
+    /* Inputs */
+    .stTextInput>div>div>input, .stNumberInput>div>div>input, .stDateInput>div>div>input, .stTextArea>div>div>textarea {
         background-color: #132e22;
         color: white;
         border: 1px solid #52b788;
@@ -100,19 +100,19 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Main Header with Logo Integration
+# Main Header
 col_logo, col_title = st.columns([1, 6])
 with col_logo:
     try:
-        st.image("logo.png", width=85)
+        st.image("logo.png", width=90)
     except:
         st.markdown("📒", unsafe_allow_html=True)
 with col_title:
-    st.title("خان ڈیجیٹل کھاتا اینڈ بینک رجسٹر")
-    st.markdown("<h4 style='color: #ffb703; margin-top: -10px;'>📒 روایتی کھاتے اور بینک لین دین کا جدید ڈیجیٹل نظام</h4>", unsafe_allow_html=True)
+    st.title("خان فارم پورٹل - ڈیجیٹل کھاتا رجسٹر")
+    st.markdown("<h4 style='color: #ffb703; margin-top: -10px;'>📒 کسٹمر ادھار کھاتاجات اور بینک ٹرانزیکشنز مینجمنٹ</h4>", unsafe_allow_html=True)
 st.markdown("---")
 
-# Navigation Sidebar
+# Sidebar with Logo & ONLY 2 Categories
 with st.sidebar:
     try:
         st.image("logo.png", use_column_width=True)
@@ -120,44 +120,17 @@ with st.sidebar:
         st.markdown("<h3 style='text-align: center; color: #52b788;'>KHAN FARM PORTAL</h3>", unsafe_allow_html=True)
     
     st.markdown("---")
-    menu = st.selectbox(
-        "کیٹیگری منتخب کریں", 
-        ["📊 مجموعی ڈیش بورڈ", "📒 کسٹمر / ادھار کھاتا رجسٹر", "🏦 بینک اے ٹی ایم & ڈپازٹ کھاتا", "🥛 ڈیری & فصل کا پرانا نظام"]
+    menu = st.radio(
+        "مینجمنٹ کیٹیگری:", 
+        ["📒 کسٹمر / ادھار کھاتا رجسٹر", "🏦 بینک اے ٹی ایم & ڈپازٹ کھاتا"]
     )
     st.markdown("---")
     st.success("🟢 **سسٹم اسٹیٹس:**\nآف لائن + کلاؤڈ سنک فعال ہے")
 
-# Fetch Data
-milk_df = db.get_milk_records()
-live_df = db.get_livestock_records()
-crop_df = db.get_crop_records()
-
 # ---------------------------------------------------------
-# 1. DASHBOARD
+# 1. CUSTOMER / KHATA REGISTER
 # ---------------------------------------------------------
-if menu == "📊 مجموعی ڈیش بورڈ":
-    st.header("📊 فارم اور کھاتوں کا خلاصہ")
-    
-    total_milk_revenue = milk_df["total_amount"].sum() if not milk_df.empty else 0.0
-    total_livestock_exp = live_df["amount"].sum() if not live_df.empty else 0.0
-    total_crop_rev = crop_df["revenue"].sum() if not crop_df.empty else 0.0
-    total_crop_exp = crop_df["expenses"].sum() if not crop_df.empty else 0.0
-    
-    net_profit = (total_milk_revenue + total_crop_rev) - (total_livestock_exp + total_crop_exp)
-    
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🥛 کل دودھ آمدنی", f"PKR {total_milk_revenue:,.2f}")
-    col2.metric("🐄 کل لائیو اسٹاک خرچے", f"PKR {total_livestock_exp:,.2f}")
-    col3.metric("🌾 فصل کی کل آمدنی", f"PKR {total_crop_rev:,.2f}")
-    col4.metric("💰 خالص تخمینہ منافع", f"PKR {net_profit:,.2f}")
-    
-    st.markdown("---")
-    st.info("💡 آپ بائیں طرف سے **'کسٹمر / ادھار کھاتا رجسٹر'** پر کلک کر کے نیا کھاتا یا لین دین درج کر سکتے ہیں۔")
-
-# ---------------------------------------------------------
-# 2. DIGITAL KHATA REGISTER (New Feature)
-# ---------------------------------------------------------
-elif menu == "📒 کسٹمر / ادھار کھاتا رجسٹر":
+if menu == "📒 کسٹمر / ادھار کھاتا رجسٹر":
     st.header("📒 کسٹمرز اور ادھار کھاتا رجسٹر")
     
     col1, col2 = st.columns([1, 2], gap="large")
@@ -182,19 +155,16 @@ elif menu == "📒 کسٹمر / ادھار کھاتا رجسٹر":
             if submitted:
                 if name and amount > 0:
                     st.success(f"✅ {name} کا کھاتا کامیابی سے محفوظ ہو گیا!")
-                    # یہاں ہم لوکل/کلاؤڈ میں ڈیٹا سیو کرنے کا فنکشن کال کر سکتے ہیں
                 else:
                     st.warning("برائے مہربانی نام اور رقم درست درج کریں۔")
                     
     with col2:
         st.subheader("📋 تمام کھاتوں اور لین دین کی فہرست")
-        st.info("یہاں آپ کے تمام کسٹمرز کے کھاتے اور لین دین کا ریکارڈ شو ہوگا۔")
-        # سیمپل ٹی이블 یا ڈیٹا فریم
         sample_khata = pd.DataFrame(columns=["تاریخ", "نام", "والد کا نام", "فون نمبر", "قسم", "رقم", "تفصیل"])
         st.dataframe(sample_khata, use_container_width=True)
 
 # ---------------------------------------------------------
-# 3. BANK ATM & DEPOSIT REGISTER
+# 2. BANK ATM & DEPOSIT REGISTER
 # ---------------------------------------------------------
 elif menu == "🏦 بینک اے ٹی ایم & ڈپازٹ کھاتا":
     st.header("🏦 بینک اکاؤنٹ، اے ٹی ایم اور ڈپازٹ رجسٹر")
@@ -219,22 +189,3 @@ elif menu == "🏦 بینک اے ٹی ایم & ڈپازٹ کھاتا":
         st.subheader("📋 بینک ٹرانزیکشن ہسٹری")
         bank_df = pd.DataFrame(columns=["تاریخ", "بینک نام", "قسم", "رقم", "تفصیل"])
         st.dataframe(bank_df, use_container_width=True)
-
-# ---------------------------------------------------------
-# 4. OLD DAIRY & CROP SYSTEM
-# ---------------------------------------------------------
-elif menu == "🥛 ڈیری & فصل کا پرانا نظام":
-    st.header("🥛 ڈیری اور فصلوں کا ریکارڈ")
-    st.info("یہاں آپ کا پرانا دودھ اور فصلوں کا ریکارڈ موجود ہے۔")
-    
-    tab1, tab2 = st.tabs(["🥛 دودھ ریکارڈ", "🌾 فصل ریکارڈ"])
-    with tab1:
-        if not milk_df.empty:
-            st.dataframe(milk_df, use_container_width=True)
-        else:
-            st.info("کوئی دودھ کا ریکارڈ نہیں ہے۔")
-    with tab2:
-        if not crop_df.empty:
-            st.dataframe(crop_df, use_container_width=True)
-        else:
-            st.info("کوئی فصل کا ریکارڈ نہیں ہے۔")
